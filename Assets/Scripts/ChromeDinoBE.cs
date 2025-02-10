@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ChromeDinoBE : MonoBehaviour
 {
-    public Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
     public float maxSpeed;
     public float jumpVelocity;
     public float jumpHeight = 3f;
@@ -13,7 +13,7 @@ public class ChromeDinoBE : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>(); 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -23,7 +23,7 @@ public class ChromeDinoBE : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isGround && Input.GetKeyDown(KeyCode.Space))
+        if (isGround && Input.GetKey(KeyCode.Space))
         {
             Jump();
         }
@@ -33,7 +33,7 @@ public class ChromeDinoBE : MonoBehaviour
     private void Jump()
     {
       
-            jumpVelocity = Mathf.Sqrt(2f * Physics2D.gravity.magnitude * rb.gravityScale * jumpHeight);
+            jumpVelocity = Mathf.Sqrt(2f * Physics2D.gravity.magnitude * rb.gravityScale * jumpHeight);   //magnitute (quanto è lungo il vettore)
             rb.velocity = Vector2.up * maxSpeed * jumpVelocity;
             isGround = false;
 
