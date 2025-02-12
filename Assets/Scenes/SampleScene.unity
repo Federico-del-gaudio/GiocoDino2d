@@ -152,10 +152,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 1011228774886269598, guid: 96e5ae1e694a012408c3e0b21daf64de, type: 3}
-  cooldown: 1
-  phases:
-  - {fileID: 11400000, guid: 5cfebc767b4d6014191fe09a49b0b237, type: 2}
-  - {fileID: 11400000, guid: 7cc85806446a8c34b962f86167555a29, type: 2}
+  Cactus2: {fileID: 7272570055317623820, guid: b24c141a442b46142a1873791e4e0d08, type: 3}
+  Cactus3: {fileID: 4509072130856655183, guid: 3eed411d91318e44ca554e6fad0cc014, type: 3}
+  minCooldownObjectToSpawn: 3
+  maxCooldownObjectToSpawn: 10
+  minCooldownCactus2: 15
+  maxCooldownCactus2: 20
+  minCooldownCactus3: 25
+  maxCooldownCactus3: 30
 --- !u!4 &301699749
 Transform:
   m_ObjectHideFlags: 0
@@ -537,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 639726031}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.84, y: 2.891, z: 0}
+  m_LocalPosition: {x: 6.24, y: 2.891, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

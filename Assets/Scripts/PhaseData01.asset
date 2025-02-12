@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PhaseData01
   m_EditorClassIdentifier: 
   timeThreshold: 5
-  minRange: 0.5
-  maxRange: 1
+  minRange: 5
+  maxRange: 10
