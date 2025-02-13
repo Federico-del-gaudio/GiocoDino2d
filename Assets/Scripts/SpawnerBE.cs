@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,12 +8,10 @@ public class SpawnerBE : MonoBehaviour
     public GameObject Cactus2;
     public GameObject Cactus3;
 
-    // Cooldown per ogni oggetto separato (ogni oggetto avr‡ il proprio timer)
     private float timeStampObjectToSpawn;
     private float timeStampCactus2;
     private float timeStampCactus3;
 
-    // Minimo e massimo per i cooldown
     public float minCooldownObjectToSpawn = 5f;
     public float maxCooldownObjectToSpawn = 10f;
     public float minCooldownCactus2 = 7f;
@@ -21,68 +19,86 @@ public class SpawnerBE : MonoBehaviour
     public float minCooldownCactus3 = 10f;
     public float maxCooldownCactus3 = 15f;
 
-    // Tempo minimo che deve passare prima che un altro cactus possa essere spawnato
-    private float minTimeBetweenCactusSpawn = 3f; // 3 secondi
-    private float lastCactusSpawnTime = 0f; // Timestamp dell'ultimo spawn di un cactus
+    private float minTimeBetweenCactusSpawn = 5f;
+    private float lastCactusSpawnTime = 0f;
 
-    // Start is called before the first frame update
+    public float speedIncreaseInterval = 30f; // Tempo tra un incremento di velocit√† e l'altro
+    public float speedIncreaseAmount = 2f; // Di quanto aumentare la velocit√† ogni 30s
+    private float currentMaxSpeed = 5f; // Velocit√† iniziale dei nemici
+    private float speedIncreaseTimestamp;
+
     void Start()
     {
-        // Impostiamo i timestamp per ciascun oggetto
         timeStampObjectToSpawn = Time.time;
         timeStampCactus2 = Time.time;
         timeStampCactus3 = Time.time;
+        speedIncreaseTimestamp = Time.time;
     }
 
-    // Funzione per ottenere un cooldown casuale
     float GetRandomCooldown(float minCooldown, float maxCooldown)
     {
         return Random.Range(minCooldown, maxCooldown);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Controlla se il cooldown di Cactus2 Ë scaduto e se Ë passato abbastanza tempo dall'ultimo spawn
+        // Speed 
+        if (Time.time - speedIncreaseTimestamp >= speedIncreaseInterval)
+        {
+            currentMaxSpeed += speedIncreaseAmount;
+            speedIncreaseTimestamp = Time.time;
+            currentMaxSpeed = Mathf.Min(currentMaxSpeed, 15f);
+        }
+
+        // Cactus2  cooldown 
         if (Time.time - timeStampCactus2 >= GetRandomCooldown(minCooldownCactus2, maxCooldownCactus2) &&
             Time.time - lastCactusSpawnTime >= minTimeBetweenCactusSpawn)
         {
-            Instantiate(Cactus2, transform.position, transform.rotation); // Spawna Cactus2
-            timeStampCactus2 = Time.time; // Resetta il timer per Cactus2
-            lastCactusSpawnTime = Time.time; // Memorizza il tempo dell'ultimo spawn di un cactus
+            SpawnEnemy(Cactus2);
+            timeStampCactus2 = Time.time;
         }
 
-        // Controlla se il cooldown di Cactus3 Ë scaduto e se Ë passato abbastanza tempo dall'ultimo spawn
+        // Cactus3  cooldown
         if (Time.time - timeStampCactus3 >= GetRandomCooldown(minCooldownCactus3, maxCooldownCactus3) &&
             Time.time - lastCactusSpawnTime >= minTimeBetweenCactusSpawn)
         {
-            Instantiate(Cactus3, transform.position, transform.rotation); // Spawna Cactus3
-            timeStampCactus3 = Time.time; // Resetta il timer per Cactus3
-            lastCactusSpawnTime = Time.time; // Memorizza il tempo dell'ultimo spawn di un cactus
+            SpawnEnemy(Cactus3);
+            timeStampCactus3 = Time.time;
         }
 
-        // Controlla se il cooldown per objectToSpawn Ë scaduto
+        // Random gameobject
         if (Time.time - timeStampObjectToSpawn >= GetRandomCooldown(minCooldownObjectToSpawn, maxCooldownObjectToSpawn))
         {
-            // Randomizza quale oggetto spawnare
-            int randomObject = Random.Range(0, 3);  // 0, 1, o 2
+            int randomObject = Random.Range(0, 3);
 
             if (randomObject == 0 && Time.time - lastCactusSpawnTime >= minTimeBetweenCactusSpawn)
             {
-                Instantiate(Cactus2, transform.position, transform.rotation);
-                lastCactusSpawnTime = Time.time; // Memorizza il tempo dell'ultimo spawn di un cactus
+                SpawnEnemy(Cactus2);
             }
             else if (randomObject == 1 && Time.time - lastCactusSpawnTime >= minTimeBetweenCactusSpawn)
             {
-                Instantiate(Cactus3, transform.position, transform.rotation);
-                lastCactusSpawnTime = Time.time; // Memorizza il tempo dell'ultimo spawn di un cactus
+                SpawnEnemy(Cactus3);
             }
             else if (randomObject == 2)
             {
-                Instantiate(objectToSpawn, transform.position, transform.rotation);
+                SpawnEnemy(objectToSpawn);
             }
 
-            timeStampObjectToSpawn = Time.time; // Resetta il timer per objectToSpawn
+            timeStampObjectToSpawn = Time.time;
         }
+    }
+
+    // 
+    void SpawnEnemy(GameObject enemyPrefab)
+    {
+        GameObject newEnemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
+        EnemyScript enemyScript = newEnemy.GetComponent<EnemyScript>();
+
+        if (enemyScript != null)    //Controllo script enemy
+        {
+            enemyScript.maxSpeed = currentMaxSpeed; //velocit√† attuale
+        }
+
+        lastCactusSpawnTime = Time.time;
     }
 }
