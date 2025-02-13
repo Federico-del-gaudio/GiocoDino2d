@@ -7,9 +7,11 @@ using UnityEngine;
 public class Phases : ScriptableObject
 {
     public float timeThreshold;
-    public float minRange;
-    public float maxRange;
 
-    
+    public float[] multipliers;
+    public float[] probabilities;
+    public GameObject[] obstcle;
+
+
 
 }

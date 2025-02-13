@@ -19,7 +19,7 @@ public class SpawnerBE : MonoBehaviour
     public float minCooldownCactus3 = 10f;
     public float maxCooldownCactus3 = 15f;
 
-    private float minTimeBetweenCactusSpawn = 5f;
+    private float minTimeBetweenCactusSpawn = 8f;
     private float lastCactusSpawnTime = 0f;
 
     public float speedIncreaseInterval = 30f; // Tempo tra un incremento di velocità e l'altro
@@ -101,4 +101,33 @@ public class SpawnerBE : MonoBehaviour
 
         lastCactusSpawnTime = Time.time;
     }
+
+    void PickCooldown()
+    {
+      /*  float dieRoll = Random.Range(0f, 1f);
+        float probabilityTreshold = 0f;
+
+        PhaseData phase = Phases[index]
+
+        for (int = 0; i < phase.probabilities.Lenght; i++) 
+        {
+          if( phase.probabilities[i] <= dieRoll){)
+          cooldown = baseCooldown * phase.multipliers[i];
+          break;
+        }else
+      { probabilityThreshold += phase.probabiities[i];
+     
+       }
+       
+        int intDieRoll = Random.Range(0,phase.obstacles.Lenght);
+        probabilityThreshold = 0; 
+            for (int = 0; i < phase.obstacle.Lenght; i++) 
+        {
+          if(intDieRoll <= probabilityThreshold){
+            objectToSpawn = phase.obstacle[i]
+            break;
+}
+        
+    */
+        }
 }

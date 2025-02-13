@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class ChromeDinoBE : MonoBehaviour
@@ -10,6 +11,8 @@ public class ChromeDinoBE : MonoBehaviour
     public float jumpVelocity;
     public float jumpHeight = 3f;
     public bool isGround = true;
+
+    public UnityEvent gameOverEvent;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +22,10 @@ public class ChromeDinoBE : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isGround = true;
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            gameOverEvent.Invoke();
+        }
     }
     // Update is called once per frame
     void Update()
